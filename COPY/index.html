@@ -5,127 +5,242 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Simple Website</title>
+<title>SocialFeed</title>
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    line-height: 1.6;
-    color: #222;
-    background: #f7f7f9;
-  }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  body { background: #f0f2f5; color: #1c1e21; }
+
+  /* Top nav */
   header {
-    background: #1f2937;
-    color: #fff;
-    padding: 1.2rem 2rem;
+    background: #fff;
+    height: 56px;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
   }
-  header h1 { font-size: 1.4rem; }
-  nav a {
+  .logo { font-size: 1.6rem; font-weight: 800; color: #1877f2; }
+  .search {
+    background: #f0f2f5;
+    border: none;
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
+    width: 240px;
+  }
+  .nav-icons { display: flex; gap: 1.5rem; align-items: center; }
+  .icon-btn {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: #f0f2f5;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 1.1rem;
+  }
+  .avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: #1877f2;
     color: #fff;
-    text-decoration: none;
-    margin-left: 1.5rem;
-    font-size: 0.95rem;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
   }
-  nav a:hover { text-decoration: underline; }
-  .hero {
-    padding: 4rem 2rem;
-    text-align: center;
-    background: #2563eb;
-    color: #fff;
-  }
-  .hero h2 { font-size: 2.2rem; margin-bottom: 0.8rem; }
-  .hero p { max-width: 600px; margin: 0 auto; font-size: 1.1rem; opacity: 0.95; }
-  .btn {
-    display: inline-block;
-    margin-top: 1.5rem;
-    padding: 0.7rem 1.6rem;
-    background: #fff;
-    color: #2563eb;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 600;
-  }
-  main {
-    max-width: 900px;
-    margin: 3rem auto;
-    padding: 0 2rem;
-  }
-  section { margin-bottom: 3rem; }
-  section h3 { font-size: 1.5rem; margin-bottom: 1rem; color: #1f2937; }
-  .cards {
+
+  /* Layout */
+  .layout {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 1rem;
+    max-width: 1200px;
+    margin: 1rem auto;
+    padding: 0 1rem;
   }
-  .card {
-    background: #fff;
-    padding: 1.5rem;
+  @media (max-width: 900px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar, .rightbar { display: none; }
+  }
+
+  .sidebar, .rightbar {
+    background: transparent;
+  }
+  .side-item {
+    display: flex; align-items: center; gap: 0.7rem;
+    padding: 0.6rem;
     border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    cursor: pointer;
+    margin-bottom: 0.2rem;
   }
-  .card h4 { margin-bottom: 0.5rem; color: #2563eb; }
-  footer {
-    text-align: center;
-    padding: 1.5rem;
-    background: #1f2937;
-    color: #ccc;
+  .side-item:hover { background: #e4e6eb; }
+  .side-icon {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: #1877f2;
+    color: #fff;
+    display: flex; align-items: center; justify-content: center;
     font-size: 0.9rem;
   }
+
+  /* Feed */
+  .feed { display: flex; flex-direction: column; gap: 1rem; }
+
+  .card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+    padding: 1rem;
+  }
+
+  .composer { display: flex; gap: 0.7rem; align-items: center; }
+  .composer input {
+    flex: 1;
+    background: #f0f2f5;
+    border: none;
+    border-radius: 999px;
+    padding: 0.7rem 1rem;
+  }
+  .composer-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 0.8rem;
+    border-top: 1px solid #e4e6eb;
+    padding-top: 0.6rem;
+  }
+  .composer-actions span {
+    font-size: 0.9rem;
+    color: #65676b;
+    cursor: pointer;
+    display: flex; gap: 0.4rem; align-items: center;
+  }
+
+  .post-header { display: flex; gap: 0.7rem; align-items: center; margin-bottom: 0.8rem; }
+  .post-header .name { font-weight: 600; }
+  .post-header .time { font-size: 0.8rem; color: #65676b; }
+  .post-text { margin-bottom: 0.8rem; line-height: 1.4; }
+  .post-image {
+    width: 100%;
+    height: 280px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #1877f2, #42a5f5);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff;
+    font-size: 0.9rem;
+  }
+  .post-stats {
+    display: flex; justify-content: space-between;
+    font-size: 0.85rem; color: #65676b;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #e4e6eb;
+  }
+  .post-actions {
+    display: flex; justify-content: space-around;
+    padding-top: 0.5rem;
+  }
+  .post-actions span {
+    font-size: 0.9rem;
+    color: #65676b;
+    cursor: pointer;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+  }
+  .post-actions span:hover { background: #f0f2f5; }
+
+  .rightbar .card { padding: 0.8rem 1rem; }
+  .contact { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0; }
+  .contact .dot { width: 10px; height: 10px; border-radius: 50%; background: #31a24c; }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>MySite</h1>
-  <nav>
-    <a href="#about">About</a>
-    <a href="#services">Services</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <div class="logo">SocialFeed</div>
+  <input class="search" type="text" placeholder="Search...">
+  <div class="nav-icons">
+    <div class="icon-btn">🏠</div>
+    <div class="icon-btn">👥</div>
+    <div class="icon-btn">🔔</div>
+    <div class="avatar">A</div>
+  </div>
 </header>
 
-<div class="hero">
-  <h2>Welcome to My Simple Website</h2>
-  <p>A clean, single-page site built with plain HTML and CSS — no frameworks required.</p>
-  <a href="#contact" class="btn">Get in Touch</a>
-</div>
+<div class="layout">
 
-<main>
-  <section id="about">
-    <h3>About</h3>
-    <p>This is a lightweight starter page. Edit the text, colors, and sections to make it your own — everything lives in this one HTML file.</p>
-  </section>
+  <!-- Left sidebar -->
+  <aside class="sidebar">
+    <div class="side-item"><div class="avatar">A</div><span>Alex Johnson</span></div>
+    <div class="side-item"><div class="side-icon">👥</div><span>Friends</span></div>
+    <div class="side-item"><div class="side-icon">📷</div><span>Photos</span></div>
+    <div class="side-item"><div class="side-icon">🎥</div><span>Videos</span></div>
+    <div class="side-item"><div class="side-icon">🔖</div><span>Saved</span></div>
+    <div class="side-item"><div class="side-icon">📅</div><span>Events</span></div>
+  </aside>
 
-  <section id="services">
-    <h3>What I Offer</h3>
-    <div class="cards">
-      <div class="card">
-        <h4>Fast</h4>
-        <p>Loads instantly since it's just plain HTML and CSS.</p>
+  <!-- Main feed -->
+  <main class="feed">
+
+    <div class="card">
+      <div class="composer">
+        <div class="avatar">A</div>
+        <input type="text" placeholder="What's on your mind?">
       </div>
-      <div class="card">
-        <h4>Simple</h4>
-        <p>No build tools, dependencies, or frameworks needed.</p>
-      </div>
-      <div class="card">
-        <h4>Flexible</h4>
-        <p>Easy to customize colors, layout, and content.</p>
+      <div class="composer-actions">
+        <span>🎥 Live Video</span>
+        <span>📷 Photo</span>
+        <span>😊 Feeling</span>
       </div>
     </div>
-  </section>
 
-  <section id="contact">
-    <h3>Contact</h3>
-    <p>Email: <a href="mailto:hello@example.com">hello@example.com</a></p>
-  </section>
-</main>
+    <div class="card">
+      <div class="post-header">
+        <div class="avatar">M</div>
+        <div>
+          <div class="name">Maria Lee</div>
+          <div class="time">2 hrs ago · 🌍</div>
+        </div>
+      </div>
+      <div class="post-text">Just finished a great hike this morning — perfect weather!</div>
+      <div class="post-image">Photo</div>
+      <div class="post-stats"><span>👍❤️ 142</span><span>18 comments</span></div>
+      <div class="post-actions">
+        <span>👍 Like</span>
+        <span>💬 Comment</span>
+        <span>↗ Share</span>
+      </div>
+    </div>
 
-<footer>
-  &copy; 2026 MySite. All rights reserved.
-</footer>
+    <div class="card">
+      <div class="post-header">
+        <div class="avatar">S</div>
+        <div>
+          <div class="name">Sam Carter</div>
+          <div class="time">5 hrs ago · 👥 Friends</div>
+        </div>
+      </div>
+      <div class="post-text">Sample static post — swap this text and image block with real feed data.</div>
+      <div class="post-stats"><span>👍 76</span><span>9 comments</span></div>
+      <div class="post-actions">
+        <span>👍 Like</span>
+        <span>💬 Comment</span>
+        <span>↗ Share</span>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Right sidebar -->
+  <aside class="rightbar">
+    <div class="card">
+      <strong>Contacts</strong>
+      <div class="contact"><div class="dot"></div>Jordan Kim</div>
+      <div class="contact"><div class="dot"></div>Priya Nair</div>
+      <div class="contact"><div class="dot"></div>Chris Evans</div>
+      <div class="contact"><div class="dot" style="background:#bcc0c4;"></div>Taylor Brooks</div>
+    </div>
+  </aside>
+
+</div>
 
 </body>
 </html>
